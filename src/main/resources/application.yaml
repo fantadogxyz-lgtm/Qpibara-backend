@@ -1,3 +1,32 @@
+server:
+  port: 8080
+
 spring:
-  application:
-    name: Qpibara
+  datasource:
+    url: jdbc:postgresql://localhost:5434/postgres
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORDS}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+springdoc:
+  swagger-ui:
+    enabled: ${enable_swagger:true}
+
+minio:
+  url: ${M_R_URI}
+  access:
+    name: ${M_R_U}
+    password: ${M_R_P}
+
+
