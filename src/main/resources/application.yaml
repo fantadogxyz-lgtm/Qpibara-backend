@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5434/postgres
-    username: ${POSTGRES_USER}
-    password: ${POSTGRES_PASSWORDS}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORDS:postgres}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -24,9 +24,8 @@ springdoc:
     enabled: ${enable_swagger:true}
 
 minio:
-  url: ${M_R_URI}
-  access:
-    name: ${M_R_U}
-    password: ${M_R_P}
+  url: ${M_R_URI:http://localhost:9000}
+  name: ${M_R_U:adminhello}
+  password: ${M_R_P:adminhello}
 
 

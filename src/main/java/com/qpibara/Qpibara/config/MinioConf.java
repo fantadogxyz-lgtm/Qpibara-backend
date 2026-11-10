@@ -2,7 +2,6 @@ package com.qpibara.Qpibara.config;
 
 import io.minio.MinioClient;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,8 +17,8 @@ public class MinioConf {
     @Bean
     public MinioClient minioClient() throws NoSuchAlgorithmException, KeyManagementException {
         MinioClient client = MinioClient.builder()
-                .endpoint(minioProperties.getMinioUrl())
-                .credentials(minioProperties.getMinioName(), minioProperties.getMinioPassword())
+                .endpoint(minioProperties.getUrl())
+                .credentials(minioProperties.getName(), minioProperties.getPassword())
                 .build();
 
         client.ignoreCertCheck();
