@@ -11,7 +11,7 @@ public record QuestionResponse(
         Integer points,
         String explanation,
         List<AnswerOptionResponse> answerOptions,
-        List<RightAnswerResponse> rightAnswers,
-        List<MatchingPairResponse> matchingPairs
+        List<MatchingPairResponse> matchingPairs,
+        List<AttachmentResponse> attachments
 ) {
 }

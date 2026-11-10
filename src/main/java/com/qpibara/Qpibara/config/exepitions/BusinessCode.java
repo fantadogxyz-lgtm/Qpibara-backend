@@ -12,7 +12,8 @@ public enum BusinessCode {
     RESOURCE_NOT_FOUND(0, "Resource was not found"),
     INVALID_DATA(1, "Invalid data"),
     USER_ALREADY_EXISTS(2, "User already exists"),
-    USER_NOT_FOUND(3, "User was not found");
+    USER_NOT_FOUND(3, "User was not found"),
+    NOT_YOUR(4,"not your " );
 
 
     private final int value;

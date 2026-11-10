@@ -5,13 +5,14 @@ import com.qpibara.Qpibara.quiz.model.QuestionType;
 import java.util.List;
 
 public record QuestionRequest(
+        Long id,
         String text,
         QuestionType type,
         Integer points,
         String explanation,
         List<AnswerOptionRequest> answerOptions,
-        List<RightAnswerRequest> rightAnswers,
-        List<MatchingPairRequest> matchingPairs
+        List<MatchingPairRequest> matchingPairs,
+        List<AttachmentRequest> attachments
 ) {
 
 }

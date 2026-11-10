@@ -35,10 +35,6 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
-    private List<RightAnswer> rightAnswers = new ArrayList<>();
-
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @Builder.Default
     private List<MatchingPair> matchingPairs = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -53,13 +49,6 @@ public class Question {
         }
     }
 
-    public void setRightAnswers(List<RightAnswer> answers) {
-        this.rightAnswers.clear();
-        if (answers != null) {
-            this.rightAnswers.addAll(answers);
-            this.rightAnswers.forEach(a -> a.setQuestion(this));
-        }
-    }
 
     public void setMatchingPairs(List<MatchingPair> pairs) {
         this.matchingPairs.clear();

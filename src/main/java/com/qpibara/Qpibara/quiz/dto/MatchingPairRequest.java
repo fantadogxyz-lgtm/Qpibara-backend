@@ -1,4 +1,4 @@
 package com.qpibara.Qpibara.quiz.dto;
 
-public record MatchingPairRequest(String leftElement, String rightElement) {
+public record MatchingPairRequest(Long id, String leftElement, String rightElement) {
 }
