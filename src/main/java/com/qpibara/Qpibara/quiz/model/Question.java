@@ -42,6 +42,7 @@ public class Question {
     private List<Attachment> attachments = new ArrayList<>();
 
     public void setAnswerOptions(List<AnswerOption> options) {
+        if (this.answerOptions == null) this.answerOptions = new ArrayList<>();
         this.answerOptions.clear();
         if (options != null) {
             this.answerOptions.addAll(options);

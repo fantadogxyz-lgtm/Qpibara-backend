@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(config = CustomMapperConfig.class, uses = {QuestionMapper.class})
 public interface StageMapper {
     @Mapping(target = "quiz", ignore = true)
+    @Mapping(target = "questions", ignore = true)
     Stage toEntity(StageRequest request);
 
     StageResponse toResponse(Stage stage);

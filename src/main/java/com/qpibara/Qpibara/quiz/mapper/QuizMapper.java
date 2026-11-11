@@ -15,6 +15,7 @@ public interface QuizMapper {
     @Mapping(target = "authorId", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "stages", ignore = true)
     Quiz toEntity(QuizRequest request);
 
     QuizResponse toResponse(Quiz quiz);

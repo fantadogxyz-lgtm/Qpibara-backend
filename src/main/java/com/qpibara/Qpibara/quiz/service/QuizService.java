@@ -2,12 +2,9 @@ package com.qpibara.Qpibara.quiz.service;
 
 import com.qpibara.Qpibara.config.exepitions.BusinessCode;
 import com.qpibara.Qpibara.config.exepitions.BusinessException;
-import com.qpibara.Qpibara.quiz.dto.QuizRequest;
-import com.qpibara.Qpibara.quiz.dto.QuizResponse;
-import com.qpibara.Qpibara.quiz.dto.QuizShortInfoResponse;
-import com.qpibara.Qpibara.quiz.mapper.QuizMapper;
-import com.qpibara.Qpibara.quiz.mapper.StageMapper;
-import com.qpibara.Qpibara.quiz.model.Quiz;
+import com.qpibara.Qpibara.quiz.dto.*;
+import com.qpibara.Qpibara.quiz.mapper.*;
+import com.qpibara.Qpibara.quiz.model.*;
 import com.qpibara.Qpibara.quiz.repository.QuizRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,12 +18,26 @@ public class QuizService {
 
     private final QuizRepository quizRepository;
     private final QuizMapper quizMapper;
+
+    // Внедряем все остальные мапперы для ручной сборки
     private final StageMapper stageMapper;
+    private final QuestionMapper questionMapper;
+    private final AnswerOptionMapper answerOptionMapper;
+    private final MatchingPairMapper matchingPairMapper;
+    private final AttachmentMapper attachmentMapper;
 
     @Transactional
     public QuizResponse createQuiz(QuizRequest request, Long authorId) {
         Quiz quiz = quizMapper.toEntity(request);
         quiz.setAuthorId(authorId);
+
+        if (request.stages() != null) {
+            // Мапим этапы через наш хелпер
+            var newStages = request.stages().stream()
+                    .map(this::mapStage)
+                    .toList();
+            quiz.setStages(newStages);
+        }
 
         Quiz saved = quizRepository.save(quiz);
         return quizMapper.toResponse(saved);
@@ -47,7 +58,7 @@ public class QuizService {
 
         if (request.stages() != null) {
             var newStages = request.stages().stream()
-                    .map(stageMapper::toEntity)
+                    .map(this::mapStage) // Используем хелпер
                     .toList();
             existing.setStages(newStages);
         }
@@ -56,7 +67,40 @@ public class QuizService {
         return quizMapper.toResponse(updated);
     }
 
-    // Возвращаем легковесные DTO!
+    // --- ХЕЛПЕРЫ ДЛЯ ГЛУБОКОГО МАППИНГА ---
+
+    private Stage mapStage(StageRequest stageReq) {
+        Stage stage = stageMapper.toEntity(stageReq);
+        if (stageReq.questions() != null) {
+            List<Question> questions = stageReq.questions().stream()
+                    .map(this::mapQuestion)
+                    .toList();
+            stage.setQuestions(questions); // Сработает кастомный сеттер и проставит stage_id
+        }
+        return stage;
+    }
+
+    private Question mapQuestion(QuestionRequest qReq) {
+        Question question = questionMapper.toEntity(qReq);
+
+        if (qReq.answerOptions() != null) {
+            List<AnswerOption> options = qReq.answerOptions().stream()
+                    .map(answerOptionMapper::toEntity).toList();
+            question.setAnswerOptions(options);
+        }
+        if (qReq.matchingPairs() != null) {
+            List<MatchingPair> pairs = qReq.matchingPairs().stream()
+                    .map(matchingPairMapper::toEntity).toList();
+            question.setMatchingPairs(pairs);
+        }
+        if (qReq.attachments() != null) {
+            List<Attachment> attachments = qReq.attachments().stream()
+                    .map(attachmentMapper::toEntity).toList();
+            question.setAttachments(attachments);
+        }
+        return question;
+    }
+
     public List<QuizShortInfoResponse> getMyQuizzes(Long authorId) {
         return quizRepository.findAllByAuthorId(authorId).stream()
                 .map(quizMapper::toShortInfo)

@@ -27,5 +27,6 @@ minio:
   url: ${M_R_URI:http://localhost:9000}
   name: ${M_R_U:adminhello}
   password: ${M_R_P:adminhello}
+  bucket-name: qpibara
 
 

@@ -15,6 +15,9 @@ import org.mapstruct.Mapping;
 public interface QuestionMapper {
 
     @Mapping(target = "stage", ignore = true)
+    @Mapping(target = "answerOptions", ignore = true)
+    @Mapping(target = "matchingPairs", ignore = true)
+    @Mapping(target = "attachments", ignore = true)
     Question toEntity(QuestionRequest request);
 
     QuestionResponse toResponse(Question question);

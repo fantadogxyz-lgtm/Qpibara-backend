@@ -6,6 +6,7 @@ import com.qpibara.Qpibara.quiz.dto.QuizShortInfoResponse;
 import com.qpibara.Qpibara.quiz.service.QuizService;
 import com.qpibara.Qpibara.users.config.jwt.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 @RequestMapping("/api/v1/quizzes")
 @RequiredArgsConstructor
 @Tag(name = "Quizzes", description = "Управление квизами")
+@SecurityRequirement(name = "bearerAuth")
 public class QuizController {
 
     private final QuizService quizService;

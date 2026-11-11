@@ -36,6 +36,7 @@ public class Quiz {
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("serialNumber ASC")
+    @Builder.Default
     private List<Stage> stages = new ArrayList<>();
 
     public void setStages(List<Stage> stages) {
